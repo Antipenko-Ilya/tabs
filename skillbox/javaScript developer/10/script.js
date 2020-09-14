@@ -4,21 +4,22 @@ let content = document.querySelector(".content"),
   edit = document.querySelector(".edit"),
   contentText = document.querySelector(".content-text"),
   contentBtn = document.querySelector(".content-btn"),
-  editBtns = document.querySelector(".edit-btns");
-editBtn = document.querySelector(".edit-btn");
-defaultBtn = document.querySelector(".default-btn");
+  editBtns = document.querySelector(".edit-btns"),
+  editBtn = document.querySelector(".edit-btn"),
+  defaultBtn = document.querySelector(".default-btn");
+tmp = "";
 
 function firstLoad() {
   if (!localStorage.myText) {
     localStorage.myText = textTmp;
   }
   contentText.innerHTML = localStorage.myText;
-  return;
 }
 firstLoad();
 
 function toggleEdit(flag) {
   if (flag) {
+    tmp = contentText.innerHTML;
     contentText.contentEditable = true;
     contentBtn.style.display = "none";
     editBtns.style.display = "flex";
@@ -34,12 +35,12 @@ function updateLocalStorage(flag) {
     localStorage.myText = contentText.innerHTML;
     toggleEdit(false);
   } else {
-    localStorage.myText = textTmp;
+    localStorage.myText = tmp;
     contentText.innerHTML = localStorage.myText;
     toggleEdit(false);
   }
 }
 
-contentBtn.onclick = () => toggleEdit(true);
-editBtn.onclick = () => updateLocalStorage(true);
-defaultBtn.onclick = () => updateLocalStorage(false);
+contentBtn.addEventListener("click", () => toggleEdit(true));
+editBtn.addEventListener("click", () => updateLocalStorage(true));
+defaultBtn.addEventListener("click", () => updateLocalStorage(false));
